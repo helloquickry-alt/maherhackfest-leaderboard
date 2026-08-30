@@ -1,13 +1,11 @@
-type TeamPageProps = {
-  params: Promise<{
-    teamId: string;
-  }>;
-};
+"use client";
 
-export default async function TeamPage({
-  params,
-}: TeamPageProps) {
-  const { teamId } = await params;
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+
+function TeamContent() {
+  const searchParams = useSearchParams();
+  const teamId = searchParams.get("id") || "";
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -31,5 +29,13 @@ export default async function TeamPage({
         </div>
       </section>
     </main>
+  );
+}
+
+export default function TeamPage() {
+  return (
+    <Suspense fallback={null}>
+      <TeamContent />
+    </Suspense>
   );
 }
